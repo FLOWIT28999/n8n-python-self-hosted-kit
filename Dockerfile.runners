@@ -1,0 +1,21 @@
+FROM n8nio/runners:latest
+
+# venv가 root 소유이므로 root 권한으로 패키지 설치
+USER root
+
+# n8n runners 이미지의 Python venv에 패키지 추가
+# venv 경로: /opt/runners/task-runner-python/.venv/
+RUN uv pip install --python /opt/runners/task-runner-python/.venv/bin/python --no-cache \
+        pandas \
+        numpy \
+        requests \
+        weasyprint \
+        openpyxl \
+        xlsxwriter \
+        beautifulsoup4 \
+        lxml \
+        httpx
+
+COPY n8n-task-runners.json /etc/n8n-task-runners.json
+
+USER runner
